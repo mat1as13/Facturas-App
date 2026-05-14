@@ -21,8 +21,6 @@ if key:
         upload = st.file_uploader("Subir Facturas:", accept_multiple_files=True)
         
         if upload and st.button("Procesar"):
-            # ... resto de tu código de procesamiento ...
-            # (Asegúrate de que 'upload' esté bien definido antes del IF)
         nuevos_datos = []
         for f in upload:
             img = Image.open(io.BytesIO(f.getvalue()))
