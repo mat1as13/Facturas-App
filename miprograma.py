@@ -16,8 +16,8 @@ if key:
     try:
         genai.configure(api_key=key)
         
-        # Intentamos con la versión 'latest' que es la más estable
-        model = genai.GenerativeModel('gemini-1.5-flash-latest')
+        # Cambiá el nombre al modelo que te aparece en AI Studio
+        model = genai.GenerativeModel('gemini-3.1-flash')
         
         upload = st.file_uploader("Subir Facturas:", accept_multiple_files=True)
         
