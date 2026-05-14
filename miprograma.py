@@ -15,7 +15,8 @@ key = st.sidebar.text_input("API Key:", type="password")
 
 if key:
     genai.configure(api_key=key)
-    model = genai.GenerativeModel('gemini-1.5-flash')
+    # Especificar 'models/' antes del nombre ayuda a evitar el error 404
+    model = genai.GenerativeModel('models/gemini-1.5-flash')
     
     upload = st.file_uploader("Subir Facturas:", accept_multiple_files=True)
     
