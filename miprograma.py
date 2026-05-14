@@ -13,12 +13,17 @@ if 'historial' not in st.session_state:
 
 key = st.sidebar.text_input("API Key:", type="password")
 
+# --- CONFIGURACIÓN BLINDADA ---
 if key:
-    genai.configure(api_key=key)
-    # Especificar 'models/' antes del nombre ayuda a evitar el error 404
-    model = genai.GenerativeModel('models/gemini-1.5-flash')
-    
-    upload = st.file_uploader("Subir Facturas:", accept_multiple_files=True)
+    try:
+        genai.configure(api_key=key)
+        # Forzamos el uso del modelo con el nombre técnico exacto
+        model = genai.GenerativeModel(
+            model_name='gemini-1.5-flash',
+            generation_config={"top_p": 0.95, "top_k": 64, "temperature": 0.1}
+        )
+    except Exception as e:
+        st.error(f"Error de configuración: {e}")
     
     if upload and st.button("Procesar"):
         nuevos_datos = []
