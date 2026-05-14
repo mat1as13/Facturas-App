@@ -13,15 +13,16 @@ if 'historial' not in st.session_state:
 key = st.sidebar.text_input("API Key:", type="password")
 
 if key:
-    genai.configure(api_key=key)
-    # Usamos la ruta completa para evitar el error 404
-    model = genai.GenerativeModel('models/gemini-1.5-flash')
-    
-    # AQUÍ SE DEFINE 'upload'
-    upload = st.file_uploader("Subir Facturas:", accept_multiple_files=True)
-    
-    # AQUÍ SE USA 'upload'
-    if upload and st.button("Procesar"):
+    try:
+        genai.configure(api_key=key)
+        # Probamos con la versión 'latest' que apunta siempre a la más estable
+        model = genai.GenerativeModel('gemini-1.5-flash-latest')
+        
+        upload = st.file_uploader("Subir Facturas:", accept_multiple_files=True)
+        
+        if upload and st.button("Procesar"):
+            # ... resto de tu código de procesamiento ...
+            # (Asegúrate de que 'upload' esté bien definido antes del IF)
         nuevos_datos = []
         for f in upload:
             img = Image.open(io.BytesIO(f.getvalue()))
