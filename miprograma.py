@@ -13,14 +13,12 @@ if 'historial' not in st.session_state:
 key = st.sidebar.text_input("API Key:", type="password")
 
 if key:
-    try:
-        genai.configure(api_key=key)
-        # Probamos con la versión 'latest' que apunta siempre a la más estable
-        model = genai.GenerativeModel('gemini-1.5-flash-latest')
-        
-        upload = st.file_uploader("Subir Facturas:", accept_multiple_files=True)
-        
-        if upload and st.button("Procesar"):
+    genai.configure(api_key=key)
+    model = genai.GenerativeModel('models/gemini-1.5-flash')
+    
+    upload = st.file_uploader("Subir Facturas:", accept_multiple_files=True)
+    
+    if upload and st.button("Procesar"):
         nuevos_datos = []
         for f in upload:
             img = Image.open(io.BytesIO(f.getvalue()))
@@ -28,7 +26,8 @@ if key:
             try:
                 r = model.generate_content([p, img])
                 res_txt = r.text.strip()
-                inicio, fin = res_txt.find('{'), res_txt.rfind('}') + 1
+                inicio = res_txt.find('{')
+                fin = res_txt.rfind('}') + 1
                 if inicio != -1:
                     dato = json.loads(res_txt[inicio:fin])
                     nuevos_datos.append(dato)
